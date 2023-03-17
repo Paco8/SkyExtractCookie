@@ -11,8 +11,8 @@ There are versions for [Windows](https://github.com/Paco8/SkyExtractCookie/relea
 
 ### Instructions for Use
 - Unzip the downloaded file. The zip contains two files, `SkyExtractCookie` which is the executable, and `settings.json`.
-- Run the `SkyExtractCookie` file. After a welcome message, it will ask you to press Enter, after which it will open a Google Chrome window in incognito mode with the streaming service website.
-- In that window, select the Identify option and enter your credentials.
+- Run the `SkyExtractCookie` file. After a welcome message, it will ask you to press Enter. After that, it will automatically open an incognito Google Chrome window directed to the login page.
+- Enter your credentials.
 - If everything went well, the Chrome window will close, and the token will be saved in the same folder in the file `skyauthentication.key`.
 - Copy this file to the device where you want to use it, in a folder that is accessible by Kodi (for example, `Download`).
 - In Kodi, go to `plugin.video.skyott` and select `Log in with a key file`. If everything went well, the main menu will load, and you can access the different sections.
