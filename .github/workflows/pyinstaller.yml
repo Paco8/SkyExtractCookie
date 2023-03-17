@@ -1,0 +1,80 @@
+name: Build packages
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { name: 'xenial', os: 'ubuntu-latest', container: 'wachii/ubuntu-qt:16.04' }
+          #- { name: 'bionic', os: 'ubuntu-18.04', container: '' }
+          - { name: 'windows', os: 'windows-latest', container: '' }
+          - { name: 'macos', os: 'macos-11', container: '' }
+
+    runs-on: ${{ matrix.config.os }}
+    container: ${{ matrix.config.container }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get version
+        shell: bash
+        run: |
+          VERSION=$(grep -o "app_version = '.*'" SkyExtractCookie.py | sed "s/app_version = '\(.*\)'/\1/")
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Install windows dependencies
+        if: ${{ matrix.config.name == 'windows' }}
+        run: choco install zip --no-progress
+
+      - name: Install xenial dependencies
+        if: ${{ matrix.config.name == 'xenial' }}
+        run: |
+          sudo apt-get -y update
+          sudo apt-get install -y zip
+          sudo apt-get install -y python3-pip zip
+          pip3 install --upgrade pip==20.3
+
+      - name: Install bionic dependencies
+        if: ${{ matrix.config.name == 'bionic' }}
+        run: sudo apt-get install -y zip
+
+      - name: Install python
+        if: ${{ matrix.config.name != 'xenial' }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.5'
+
+      - name: Install python dependencies
+        shell: bash
+        run: pip install websocket-client pyinstaller
+
+      - name: Build package
+        shell: bash
+        run: |
+          pyinstaller --onefile SkyExtractCookie.py
+          cp settings.json dist
+          cd dist
+          zip -9 SkyExtractCookie-${{env.VERSION}}-${{ matrix.config.name }}.zip *
+          ls -l
+
+      - name: Create artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: SkyExtractCookie
+          path: dist/*.zip
+
+      - name: Upload package to release
+        if: github.event_name == 'release'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./dist/*.zip
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
