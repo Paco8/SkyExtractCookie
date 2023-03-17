@@ -1,13 +1,13 @@
 # SkyExtractCookie
 
-SkyExtractCookie is a complementary program for the plugin.video.skyott addon. This program allows you to obtain a *.key file in order to log in to `plugin.video.skyott`.
+SkyExtractCookie is a complementary program for the [plugin.video.skyott addon](https://github.com/Paco8/plugin.video.skyott). This program allows you to obtain a *.key file in order to log in to `plugin.video.skyott`.
 
 The program will open a Google Chrome window (Chromium or Brave also work) with the streaming service website, where you will need to log in. Once that's done, the program will obtain a token from the website, close the Chrome window, and save that token in a file on your disk.
 
 This key file can be used to log in to `plugin.video.skyott`. You can use the key file on multiple devices.
 
 ## Download
-There are versions for Windows, Linux, and Mac OS.
+There are versions for [Windows](https://github.com/Paco8/SkyExtractCookie/releases/download/v1.0.1/SkyExtractCookie-1.0.1-windows.zip), [Linux](https://github.com/Paco8/SkyExtractCookie/releases/download/v1.0.1/SkyExtractCookie-1.0.1-xenial.zip) y [Mac OS](https://github.com/Paco8/SkyExtractCookie/releases/download/v1.0.1/SkyExtractCookie-1.0.1-macos.zip).
 
 ### Instructions for Use
 - Unzip the downloaded file. The zip contains two files, `SkyExtractCookie` which is the executable, and `settings.json`.
