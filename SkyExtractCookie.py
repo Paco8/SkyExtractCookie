@@ -37,13 +37,23 @@ DEBUG_PORT = 9222
 LOCALHOST_ADDRESS = 'localhost'
 
 HOST = 'https://www.peacocktv.com'
-#HOST = 'https://www.skyshowtime.com'
 URL = HOST + '/signin'
+OUTPUT_KEY = 'peacock.key'
+
+def select_platform(platform):
+  global HOST, URL, OUTPUT_KEY
+  if platform == 'peacock':
+    HOST = 'https://www.peacocktv.com'
+    OUTPUT_KEY = 'peacock.key'
+  else:
+    HOST = 'https://www.skyshowtime.com'
+    OUTPUT_KEY = 'skyshowtime.key'
+  URL = HOST + '/signin'
 
 
 class Main(object):
 
-    app_version = '1.0.1'
+    app_version = '1.0.2'
     _msg_id = 0
     _ws = None
 
@@ -64,6 +74,13 @@ class Main(object):
         browser_proc = None
         try:
             input_msg('Press "ENTER" key to accept the disclaimer and start, or "CTRL+C" to cancel', TextFormat.BOLD)
+            k = None
+            while k not in ['1', '2']:
+              k = input_msg('\r\nWould you like to extract the cookie for PeacockTV or SkyShowTime?\r\n1) PeacockTV\r\n2) SkyShowtime\r\n', TextFormat.BOLD)
+              if k == '1': select_platform('peacock')
+              if k == '2': select_platform('skyshowtime')
+            #print(HOST, URL, OUTPUT_KEY)
+            #quit()
             browser_proc = open_browser(browser_temp_path)
             self.operations()
         except Warning as exc:
@@ -115,7 +132,7 @@ class Main(object):
         # Close the browser
         self.ws_request('Browser.close')
         show_msg('Done!', TextFormat.COL_BLUE)
-        show_msg('The "skyauthentication.key" file has been saved in current folder.', TextFormat.COL_BLUE)
+        show_msg('The {} file has been saved in the current folder.'.format(OUTPUT_KEY), TextFormat.COL_BLUE)
 
 
     def get_browser_debug_endpoint(self):
@@ -250,7 +267,7 @@ def get_browser_path():
 
 def save_data(data):
     data = json.dumps(data, ensure_ascii=False)
-    file = open('skyauthentication.key', 'w')
+    file = open(OUTPUT_KEY, 'w')
     file.write(data)
     file.close()
 
