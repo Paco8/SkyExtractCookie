@@ -7,7 +7,7 @@ The program will open a Google Chrome window (Chromium or Brave also work) with 
 This key file can be used to log in to `plugin.video.skyott`. You can use the key file on multiple devices.
 
 ## Download
-There are versions for [Windows](https://github.com/Paco8/SkyExtractCookie/releases/download/v1.0.2/SkyExtractCookie-1.0.2-windows.zip), [Linux](https://github.com/Paco8/SkyExtractCookie/releases/download/v1.0.2/SkyExtractCookie-1.0.2-xenial.zip) y [Mac OS](https://github.com/Paco8/SkyExtractCookie/releases/download/v1.0.2/SkyExtractCookie-1.0.2-macos.zip).
+There are versions for [Windows](https://github.com/Paco8/SkyExtractCookie/releases/download/v1.0.3/SkyExtractCookie-1.0.3-windows.zip), [Linux](https://github.com/Paco8/SkyExtractCookie/releases/download/v1.0.3/SkyExtractCookie-1.0.3-xenial.zip) y [Mac OS](https://github.com/Paco8/SkyExtractCookie/releases/download/v1.0.3/SkyExtractCookie-1.0.3-macos.zip).
 
 ### Instructions for Use
 - Unzip the downloaded file. The zip contains two files, `SkyExtractCookie` which is the executable, and `settings.json`.
