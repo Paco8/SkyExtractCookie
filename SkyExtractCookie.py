@@ -53,7 +53,7 @@ def select_platform(platform):
 
 class Main(object):
 
-    app_version = '1.0.2'
+    app_version = '1.0.3'
     _msg_id = 0
     _ws = None
 
@@ -227,6 +227,7 @@ def open_browser(browser_temp_path):
               '--remote-debugging-port={}'.format(DEBUG_PORT),
               '--no-first-run',
               '--no-default-browser-check',
+              '--remote-allow-origins=*',
               #'--proxy-server=127.0.0.1:18080'
              ]
     dev_null = open(os.devnull, 'wb')
