@@ -15,4 +15,4 @@ There are versions for [Windows](https://github.com/Paco8/SkyExtractCookie/relea
 - Enter your credentials.
 - If everything went well, the Chrome window will close, and the token will be saved in the same folder as a key file.
 - Copy this file to the device where you want to use it, in a folder that is accessible by Kodi (for example, `Download`).
-- In Kodi, go to `plugin.video.skyott` and select `Log in with a key file`. If everything went well, the main menu will load, and you can access the different sections.
+- In Kodi, go to `plugin.video.skyott` and select `Log in with a key file`. 
