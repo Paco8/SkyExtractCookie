@@ -11,10 +11,11 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { name: 'xenial', os: 'ubuntu-latest', container: 'wachii/ubuntu-qt:16.04' }
+          #- { name: 'xenial', os: 'ubuntu-latest', container: 'wachii/ubuntu-qt:16.04' }
           #- { name: 'bionic', os: 'ubuntu-18.04', container: '' }
+          - { name: 'linux', os: 'ubuntu-20.04', container: '' }
           - { name: 'windows', os: 'windows-latest', container: '' }
-          - { name: 'macos', os: 'macos-11', container: '' }
+          - { name: 'macos', os: 'macos-12', container: '' }
 
     runs-on: ${{ matrix.config.os }}
     container: ${{ matrix.config.container }}
@@ -27,6 +28,7 @@ jobs:
         run: |
           VERSION=$(grep -o "app_version = '.*'" SkyExtractCookie.py | sed "s/app_version = '\(.*\)'/\1/")
           echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "PACKAGE_NAME=SkyExtractCookie-$VERSION-${{ matrix.config.name }}" >> $GITHUB_ENV
 
       - name: Install windows dependencies
         if: ${{ matrix.config.name == 'windows' }}
@@ -44,11 +46,17 @@ jobs:
         if: ${{ matrix.config.name == 'bionic' }}
         run: sudo apt-get install -y zip
 
+      - name: Install linux dependencies
+        if: ${{ matrix.config.name == 'linux' }}
+        run: sudo apt-get install -y zip
+
       - name: Install python
         if: ${{ matrix.config.name != 'xenial' }}
         uses: actions/setup-python@v4
         with:
           python-version: '3.5'
+        env:
+          PIP_TRUSTED_HOST: "pypi.python.org pypi.org files.pythonhosted.org"
 
       - name: Install python dependencies
         shell: bash
@@ -60,13 +68,13 @@ jobs:
           pyinstaller --onefile SkyExtractCookie.py
           cp settings.json dist
           cd dist
-          zip -9 SkyExtractCookie-${{env.VERSION}}-${{ matrix.config.name }}.zip *
+          zip -9 ${{env.PACKAGE_NAME}}.zip *
           ls -l
 
       - name: Create artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: SkyExtractCookie
+          name: ${{env.PACKAGE_NAME}}
           path: dist/*.zip
 
       - name: Upload package to release
