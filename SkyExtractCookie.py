@@ -44,16 +44,21 @@ def select_platform(platform):
   global HOST, URL, OUTPUT_KEY
   if platform == 'peacock':
     HOST = 'https://www.peacocktv.com'
+    URL = HOST + '/signin'
     OUTPUT_KEY = 'peacock.key'
+  elif platform == 'nowtv':
+    HOST = 'https://www.nowtv.com'
+    URL = HOST + '/gb/sign-in'
+    OUTPUT_KEY = 'nowtv.key'
   else:
     HOST = 'https://www.skyshowtime.com'
+    URL = HOST + '/signin'
     OUTPUT_KEY = 'skyshowtime.key'
-  URL = HOST + '/signin'
 
 
 class Main(object):
 
-    app_version = '1.0.3'
+    app_version = '1.0.4'
     _msg_id = 0
     _ws = None
 
@@ -75,10 +80,11 @@ class Main(object):
         try:
             input_msg('Press "ENTER" key to accept the disclaimer and start, or "CTRL+C" to cancel', TextFormat.BOLD)
             k = None
-            while k not in ['1', '2']:
-              k = input_msg('\r\nWould you like to extract the cookie for PeacockTV or SkyShowTime?\r\n1) PeacockTV\r\n2) SkyShowtime\r\n', TextFormat.BOLD)
+            while k not in ['1', '2', '3']:
+              k = input_msg('\r\nWould you like to extract the cookie for PeacockTV or SkyShowTime?\r\n1) PeacockTV\r\n2) SkyShowtime\r\n3) NowTV (UK)\r\n', TextFormat.BOLD)
               if k == '1': select_platform('peacock')
               if k == '2': select_platform('skyshowtime')
+              if k == '3': select_platform('nowtv')
             #print(HOST, URL, OUTPUT_KEY)
             #quit()
             browser_proc = open_browser(browser_temp_path)
@@ -229,6 +235,7 @@ def open_browser(browser_temp_path):
               '--no-default-browser-check',
               '--remote-allow-origins=*',
               #'--proxy-server=127.0.0.1:18080'
+              #'--proxy-server=192.168.1.30:8080'
              ]
     dev_null = open(os.devnull, 'wb')
     try:
